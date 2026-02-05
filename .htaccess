@@ -1,0 +1,56 @@
+# ===================================================
+# MCC Lost & Found System - Apache Configuration
+# ===================================================
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Prevent directory listing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "\.(env|log|sql|ini|config)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent PHP execution in uploads directory
+RewriteRule ^uploads/.*\.(php|phtml|php3|php4|php5|php7|phps|php-s|pht|phar)$ - [F,NC]
+
+# Custom error pages (if you have them)
+ErrorDocument 404 /lostfound/index.php?url=404
+ErrorDocument 403 /lostfound/index.php?url=403
+ErrorDocument 500 /lostfound/index.php?url=500
+
+# Main rewrite rule for clean URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    # Remove Apache server signature
+    Header always unset "X-Powered-By"
+    Header unset "X-Powered-By"
+    Header unset Server
+</IfModule>
+
+# Compression for better performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache control for static files (1 month)
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|woff|woff2|ttf|svg|eot)$">
+    Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>
+
+# Prevent caching of dynamic files
+<FilesMatch "\.(php|html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</FilesMatch>

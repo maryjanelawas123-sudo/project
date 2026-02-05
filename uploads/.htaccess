@@ -1,0 +1,23 @@
+# Deny access to all PHP files in uploads directory
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|php-s|pht|phar)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow image files
+<FilesMatch "\.(jpg|jpeg|png|gif|heic|bmp|webp)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Set cache headers for images
+<FilesMatch "\.(jpg|jpeg|png|gif|heic)$">
+    Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Custom error pages
+ErrorDocument 403 "Access forbidden"
+ErrorDocument 404 "File not found"

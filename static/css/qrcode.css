@@ -1,0 +1,71 @@
+/* QR Code Styles */
+.qr-container {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+.qr-code {
+    margin: 0 auto;
+    padding: 10px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.qr-info {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.qr-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.qr-batch {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.qr-item {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background: white;
+}
+
+.qr-item .qr-code {
+    margin-bottom: 10px;
+}
+
+.qr-item small {
+    display: block;
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+/* Print styles for QR codes */
+@media print {
+    .qr-container {
+        box-shadow: none;
+        border: 1px solid #000;
+        page-break-inside: avoid;
+    }
+    
+    .qr-actions {
+        display: none;
+    }
+}
